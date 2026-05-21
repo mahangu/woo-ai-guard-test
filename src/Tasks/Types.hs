@@ -29,6 +29,12 @@ instance ToJSON Task where
     , "done"  .= taskDone t
     ]
 
+instance FromJSON Task where
+  parseJSON = withObject "Task" $ \o ->
+    Task <$> o .: "id"
+         <*> o .: "title"
+         <*> o .: "done"
+
 -- | The body accepted by @POST /tasks@. Done defaults to False when absent.
 data NewTask = NewTask
   { newTitle :: !Text
